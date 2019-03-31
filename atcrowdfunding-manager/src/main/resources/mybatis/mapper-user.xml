@@ -2,10 +2,27 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.atguigu.atcrowdfunding.dao.UserDao">
     <select id="pageQueryData" resultType="com.aiguigu.atcrowdfunding.bean.User">
-        select * from t_user limit #{start},#{size}
+        select
+        *
+        from
+        t_user
+        <where>
+            <if test="queryText != null">
+                and loginacct like "%"#{queryText}"%"
+            </if>
+        </where>
+        limit #{start},#{size}
     </select>
 
     <select id="pageQueryCount" resultType="int">
-        select count(*) from t_user;
+        select
+        count(*)
+        from t_user
+        <where>
+            <if test="queryText != null">
+                and loginacct like "%"#{queryText}"%"
+            </if>
+        </where>
+
     </select>
 </mapper>

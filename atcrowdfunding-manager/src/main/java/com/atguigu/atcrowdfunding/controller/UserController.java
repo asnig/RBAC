@@ -23,7 +23,7 @@ public class UserController {
 
     @ResponseBody
     @RequestMapping("/pageQuery")
-    public Object pageQuery(Integer pageNo, Integer pageSize) {
+    public Object pageQuery(String queryText, Integer pageNo, Integer pageSize) {
         AJAXResult result = new AJAXResult();
 
         try {
@@ -31,6 +31,8 @@ public class UserController {
             Map<String, Object> map = new HashMap<>();
             map.put("start", (pageNo - 1) * pageSize);
             map.put("size", pageSize);
+            map.put("queryText", queryText);
+
             List<User> users = userService.pageQueryData(map);
             int totalRecord = userService.pageQueryCount(map);
             int totalPage = totalRecord % pageSize == 0 ? totalRecord / pageSize : totalRecord / pageSize + 1;

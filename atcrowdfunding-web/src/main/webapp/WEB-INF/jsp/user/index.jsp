@@ -151,10 +151,12 @@
                         <div class="form-group has-feedback">
                             <div class="input-group">
                                 <div class="input-group-addon">查询条件</div>
-                                <input class="form-control has-success" type="text" placeholder="请输入查询条件">
+                                <input id="queryText" class="form-control has-success" type="text"
+                                       placeholder="请输入查询条件">
                             </div>
                         </div>
-                        <button type="button" class="btn btn-warning"><i class="glyphicon glyphicon-search"></i> 查询
+                        <button id="queryBtn" type="button" class="btn btn-warning"><i
+                                class="glyphicon glyphicon-search"></i> 查询
                         </button>
                     </form>
                     <button type="button" class="btn btn-danger" style="float:right;margin-left:10px;"><i
@@ -201,6 +203,7 @@
 <script src="${APP_PATH}/script/docs.min.js"></script>
 <script src="${APP_PATH}/layer/layer.js"></script>
 <script type="text/javascript">
+    var likeFlag = false;
     $(function () {
         $(".list-group-item").click(function () {
             if ($(this).find("ul")) {
@@ -214,6 +217,12 @@
         });
 
         pageQuery(1);
+
+        $("#queryBtn").click(function () {
+            var queryText = $("#queryText").val();
+            likeFlag = queryText !== "";
+            pageQuery(1);
+        })
     });
     $("tbody .btn-success").click(function () {
         window.location.href = "assignRole.html";
@@ -226,13 +235,14 @@
     function pageQuery(pageNo) {
 
         var index = null;
+        var queryData = {"pageNo": pageNo, "pageSize": 2}
+        if (likeFlag) {
+            queryData.queryText = $("#queryText").val();
+        }
         $.ajax({
             type: "POST",
             url: "${APP_PATH}/user/pageQuery",
-            data: {
-                "pageNo": pageNo,
-                "pageSize": 2
-            },
+            data: queryData,
             beforeSend: function () {
                 index = layer.msg('处理中', {icon: 16});
             },

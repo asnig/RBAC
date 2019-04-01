@@ -35,9 +35,13 @@
       )
     </insert>
 
-    <update id="updateUser">
+    <update id="updateUser" parameterType="com.aiguigu.atcrowdfunding.bean.User">
         update t_user set
         loginacct = #{loginacct}, username = #{username}, email = #{email}
         where id = #{id}
     </update>
+
+    <delete id="deleteUserById" parameterType="int">
+        delete from t_user where id = #{id}
+    </delete>
 </mapper>

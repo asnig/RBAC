@@ -24,6 +24,23 @@ public class UserController {
     private UserService userService;
 
     @ResponseBody
+    @RequestMapping("/delete")
+    public Object delete(Integer id) {
+        AJAXResult result = new AJAXResult();
+        try {
+
+            userService.deleteUserById(id);
+            result.setSuccess(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setSuccess(false);
+        }
+
+        return result;
+    }
+
+
+    @ResponseBody
     @RequestMapping("/update")
     public Object update(User user) {
         AJAXResult result = new AJAXResult();

@@ -264,7 +264,7 @@
                         tableContent += '<td>';
                         tableContent += '<button type="button" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>';
                         tableContent += '<button type="button" onclick="toEdit(' + user.id + ')" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>';
-                        tableContent += '<button type="button" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>';
+                        tableContent += '<button type="button" onclick="deleteBtn(' + user.id + ',\'' + user.loginacct + '\')" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>';
                         tableContent += '</td>';
                         tableContent += '</tr>';
                     });
@@ -303,6 +303,39 @@
 
 
         })
+    }
+
+
+    function deleteBtn(id, loginacct) {
+        var index = null;
+        layer.confirm("确定删除用户【" + loginacct + "】？", {icon: 3, title: '提示'}, function (cindex) {
+
+            $.ajax({
+                type: "POST",
+                url: "${APP_PATH}/user/delete",
+                data: {"id": id},
+                beforeSend: function () {
+                    index = layer.msg('处理中', {icon: 16});
+                },
+                success: function (result) {
+                    layer.close(index);
+                    if (result) {
+                        pageQuery(1);
+                    } else {
+                        layer.msg('用户删除失败，请重新操作！', {
+                            icon: 5,
+                            time: 2000, //2秒关闭（如果不配置，默认是3秒）
+                            anim: 6
+                        }, function () {
+                        });
+                    }
+                }
+            });
+
+            layer.close(cindex);
+        }, function (cindex) {
+            layer.close(cindex);
+        });
     }
 
     function toEdit(id) {

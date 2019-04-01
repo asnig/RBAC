@@ -159,7 +159,8 @@
                                 class="glyphicon glyphicon-search"></i> 查询
                         </button>
                     </form>
-                    <button type="button" class="btn btn-danger" style="float:right;margin-left:10px;"><i
+                    <button onclick="deleteUsers()" type="button" class="btn btn-danger"
+                            style="float:right;margin-left:10px;"><i
                             class=" glyphicon glyphicon-remove"></i> 删除
                     </button>
                     <button type="button" class="btn btn-primary" style="float:right;"
@@ -168,29 +169,31 @@
                     <br>
                     <hr style="clear:both;">
                     <div class="table-responsive">
-                        <table class="table  table-bordered">
-                            <thead>
-                            <tr>
-                                <th width="30">#</th>
-                                <th width="30"><input type="checkbox"></th>
-                                <th>账号</th>
-                                <th>名称</th>
-                                <th>邮箱地址</th>
-                                <th width="100">操作</th>
-                            </tr>
-                            </thead>
-                            <tbody id="userData">
-                            </tbody>
-                            <tfoot>
-                            <tr>
-                                <td colspan="6" align="center">
-                                    <ul class="pagination">
-                                    </ul>
-                                </td>
-                            </tr>
+                        <form id="userForm">
+                            <table class="table  table-bordered">
+                                <thead>
+                                <tr>
+                                    <th width="30">#</th>
+                                    <th width="30"><input id="selAllBox" type="checkbox"></th>
+                                    <th>账号</th>
+                                    <th>名称</th>
+                                    <th>邮箱地址</th>
+                                    <th width="100">操作</th>
+                                </tr>
+                                </thead>
+                                <tbody id="userData">
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <td colspan="6" align="center">
+                                        <ul class="pagination">
+                                        </ul>
+                                    </td>
+                                </tr>
 
-                            </tfoot>
-                        </table>
+                                </tfoot>
+                            </table>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -223,6 +226,13 @@
             likeFlag = queryText !== "";
             pageQuery(1);
         })
+
+        $("#selAllBox").click(function () {
+            var flag = this.checked;
+            $("#userData :checkbox").each(function () {
+                this.checked = flag;
+            })
+        })
     });
     $("tbody .btn-success").click(function () {
         window.location.href = "assignRole.html";
@@ -235,7 +245,7 @@
     function pageQuery(pageNo) {
 
         var index = null;
-        var queryData = {"pageNo": pageNo, "pageSize": 2}
+        var queryData = {"pageNo": pageNo, "pageSize": 10}
         if (likeFlag) {
             queryData.queryText = $("#queryText").val();
         }
@@ -257,7 +267,7 @@
                     $.each(users, function (i, user) {
                         tableContent += '<tr>';
                         tableContent += '<td>' + (i + 1) + '</td>';
-                        tableContent += '<td><input type="checkbox"></td>';
+                        tableContent += '<td><input name="userId" value="' + user.id + '" type="checkbox"></td>';
                         tableContent += '<td>' + user.loginacct + '</td>';
                         tableContent += '<td>' + user.username + '</td>';
                         tableContent += '<td>' + user.email + '</td>';
@@ -314,6 +324,37 @@
                 type: "POST",
                 url: "${APP_PATH}/user/delete",
                 data: {"id": id},
+                beforeSend: function () {
+                    index = layer.msg('处理中', {icon: 16});
+                },
+                success: function (result) {
+                    layer.close(index);
+                    if (result) {
+                        pageQuery(1);
+                    } else {
+                        layer.msg('用户删除失败，请重新操作！', {
+                            icon: 5,
+                            time: 2000, //2秒关闭（如果不配置，默认是3秒）
+                            anim: 6
+                        }, function () {
+                        });
+                    }
+                }
+            });
+
+            layer.close(cindex);
+        }, function (cindex) {
+            layer.close(cindex);
+        });
+    }
+
+    function deleteUsers() {
+        var index = null;
+        layer.confirm("确认删除选择的用户？", {icon: 3, title: '提示'}, function (cindex) {
+            $.ajax({
+                type: "POST",
+                url: "${APP_PATH}/user/deletes",
+                data: $("#userForm").serialize(),
                 beforeSend: function () {
                     index = layer.msg('处理中', {icon: 16});
                 },

@@ -44,4 +44,11 @@
     <delete id="deleteUserById" parameterType="int">
         delete from t_user where id = #{id}
     </delete>
+
+    <delete id="deleteUsers">
+        delete from t_user where id in
+        <foreach collection="userIds" open="(" close=")" separator="," item="userId">
+            #{userId}
+        </foreach>
+    </delete>
 </mapper>

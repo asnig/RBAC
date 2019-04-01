@@ -26,4 +26,6 @@ public interface UserDao {
     void updateUser(User user);
 
     void deleteUserById(Integer id);
+
+    void deleteUsers(Map<String, Object> map);
 }

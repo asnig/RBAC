@@ -49,4 +49,10 @@ public class UserServiceImpl implements UserService {
     public void deleteUserById(Integer id) {
         userDao.deleteUserById(id);
     }
+
+    @Override
+    public void deleteUsers(Map<String, Object> map) {
+        userDao.deleteUsers(map);
+    }
+
 }

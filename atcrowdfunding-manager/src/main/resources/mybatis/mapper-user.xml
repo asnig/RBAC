@@ -34,4 +34,10 @@
         #{username},#{loginacct},#{userpswd},#{email},#{createtime}
       )
     </insert>
+
+    <update id="updateUser">
+        update t_user set
+        loginacct = #{loginacct}, username = #{username}, email = #{email}
+        where id = #{id}
+    </update>
 </mapper>

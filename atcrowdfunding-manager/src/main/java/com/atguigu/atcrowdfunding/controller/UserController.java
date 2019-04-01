@@ -3,7 +3,6 @@ package com.atguigu.atcrowdfunding.controller;
 import com.aiguigu.atcrowdfunding.bean.AJAXResult;
 import com.aiguigu.atcrowdfunding.bean.User;
 import com.atguigu.atcrowdfunding.service.UserService;
-import freemarker.template.SimpleDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +22,31 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @ResponseBody
+    @RequestMapping("/update")
+    public Object update(User user) {
+        AJAXResult result = new AJAXResult();
+
+        try {
+
+            userService.updateUser(user);
+            result.setSuccess(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setSuccess(false);
+        }
+
+        return result;
+    }
+
+    @RequestMapping("/edit")
+    public String edit(Integer id, Model model) {
+
+        User user = userService.queryById(id);
+        model.addAttribute("user", user);
+        return "/user/edit";
+    }
 
     @ResponseBody
     @RequestMapping("/insert")

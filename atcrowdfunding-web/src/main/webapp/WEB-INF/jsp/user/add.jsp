@@ -224,7 +224,7 @@
                     anim: 6
                 }, function () {
                 });
-                return;
+
             } else {
 
                 $.ajax({

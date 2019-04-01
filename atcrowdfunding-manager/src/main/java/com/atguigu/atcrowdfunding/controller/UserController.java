@@ -3,6 +3,7 @@ package com.atguigu.atcrowdfunding.controller;
 import com.aiguigu.atcrowdfunding.bean.AJAXResult;
 import com.aiguigu.atcrowdfunding.bean.User;
 import com.atguigu.atcrowdfunding.service.UserService;
+import freemarker.template.SimpleDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +23,29 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @ResponseBody
+    @RequestMapping("/insert")
+    public Object insert(User user) {
+        AJAXResult result = new AJAXResult();
+
+        try {
+            user.setUserpswd("123456");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            user.setCreatetime(sdf.format(new Date()));
+            userService.insertUser(user);
+            result.setSuccess(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setSuccess(false);
+        }
+        return result;
+    }
+
+    @RequestMapping("/add")
+    public String add() {
+        return "user/add";
+    }
 
     @ResponseBody
     @RequestMapping("/pageQuery")

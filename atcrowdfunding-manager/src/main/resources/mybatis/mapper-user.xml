@@ -11,6 +11,7 @@
                 and loginacct like "%"#{queryText}"%"
             </if>
         </where>
+        order by createtime desc
         limit #{start},#{size}
     </select>
 
@@ -25,4 +26,12 @@
         </where>
 
     </select>
+    
+    <insert id="insertUser" parameterType="com.aiguigu.atcrowdfunding.bean.User">
+      insert into t_user (
+        username,loginacct,userpswd,email,createtime
+      ) values (
+        #{username},#{loginacct},#{userpswd},#{email},#{createtime}
+      )
+    </insert>
 </mapper>

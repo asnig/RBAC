@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: 10727
-  Date: 2019/3/27
-  Time: 8:38
+  Date: 2019/4/2
+  Time: 8:33
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -39,7 +39,7 @@
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header">
-            <div><a class="navbar-brand" style="font-size:32px;" href="#">众筹平台 - 用户维护</a></div>
+            <div><a class="navbar-brand" style="font-size:32px;" href="#">众筹平台 - 角色维护</a></div>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
@@ -83,11 +83,11 @@
                                                                                              style="float:right">3</span></span>
                         <ul style="margin-top:10px;">
                             <li style="height:30px;">
-                                <a href="/user/index" style="color:red;"><i class="glyphicon glyphicon-user"></i>
-                                    用户维护</a>
+                                <a href="/user/index"><i class="glyphicon glyphicon-user"></i> 用户维护</a>
                             </li>
                             <li style="height:30px;">
-                                <a href="/role/index"><i class="glyphicon glyphicon-king"></i> 角色维护</a>
+                                <a href="/role/index" style="color:red;"><i class="glyphicon glyphicon-king"></i>
+                                    角色维护</a>
                             </li>
                             <li style="height:30px;">
                                 <a href="permission.html"><i class="glyphicon glyphicon-lock"></i> 许可维护</a>
@@ -155,42 +155,47 @@
                                        placeholder="请输入查询条件">
                             </div>
                         </div>
-                        <button id="queryBtn" type="button" class="btn btn-warning"><i
+                        <button id="findBtn" type="button" class="btn btn-warning"><i
                                 class="glyphicon glyphicon-search"></i> 查询
                         </button>
                     </form>
-                    <button onclick="deleteUsers()" type="button" class="btn btn-danger"
-                            style="float:right;margin-left:10px;"><i
+                    <button type="button" onclick="deleteRoles()" class="btn btn-danger" style="float:right;margin-left:10px;"><i
                             class=" glyphicon glyphicon-remove"></i> 删除
                     </button>
                     <button type="button" class="btn btn-primary" style="float:right;"
-                            onclick="window.location.href='add.html'"><i class="glyphicon glyphicon-plus"></i> 新增
+                            onclick="window.location.href='${APP_PATH}/role/add'"><i
+                            class="glyphicon glyphicon-plus"></i> 新增
                     </button>
                     <br>
                     <hr style="clear:both;">
                     <div class="table-responsive">
-                        <form id="userForm">
+                        <form id="roleForm">
                             <table class="table  table-bordered">
                                 <thead>
                                 <tr>
                                     <th width="30">#</th>
                                     <th width="30"><input id="selAllBox" type="checkbox"></th>
-                                    <th>账号</th>
                                     <th>名称</th>
-                                    <th>邮箱地址</th>
                                     <th width="100">操作</th>
                                 </tr>
                                 </thead>
-                                <tbody id="userData">
+                                <tbody id="roleData">
                                 </tbody>
                                 <tfoot>
                                 <tr>
                                     <td colspan="6" align="center">
                                         <ul class="pagination">
+                                            <li class="disabled"><a href="#">上一页</a></li>
+                                            <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a>
+                                            </li>
+                                            <li><a href="#">2</a></li>
+                                            <li><a href="#">3</a></li>
+                                            <li><a href="#">4</a></li>
+                                            <li><a href="#">5</a></li>
+                                            <li><a href="#">下一页</a></li>
                                         </ul>
                                     </td>
                                 </tr>
-
                                 </tfoot>
                             </table>
                         </form>
@@ -221,37 +226,30 @@
 
         pageQuery(1);
 
-        $("#queryBtn").click(function () {
+        $("#findBtn").click(function () {
             var queryText = $("#queryText").val();
-            likeFlag = queryText !== "";
+            likeFlag = queryText !== '';
             pageQuery(1);
         })
 
         $("#selAllBox").click(function () {
             var flag = this.checked;
-            $("#userData :checkbox").each(function () {
+            $("#roleData :checkbox").each(function () {
                 this.checked = flag;
             })
         })
-    });
-    $("tbody .btn-success").click(function () {
-        window.location.href = "assignRole.html";
-    });
-    $("tbody .btn-primary").click(function () {
-        window.location.href = "edit.html";
+
     });
 
-    //分页查询
     function pageQuery(pageNo) {
-
         var index = null;
-        var queryData = {"pageNo": pageNo, "pageSize": 10}
+        var queryData = {"pageNo": pageNo, "pageSize": 5};
         if (likeFlag) {
             queryData.queryText = $("#queryText").val();
         }
         $.ajax({
             type: "POST",
-            url: "${APP_PATH}/user/pageQuery",
+            url: "${APP_PATH}/role/pageQuery",
             data: queryData,
             beforeSend: function () {
                 index = layer.msg('处理中', {icon: 16});
@@ -259,23 +257,22 @@
             success: function (result) {
                 layer.close(index);
                 if (result.success) {
-                    var userPage = result.data;
-                    var users = userPage.datas;
 
+                    var rolePage = result.data;
+                    var roles = rolePage.datas;
                     var tableContent = "";
                     var pageContent = "";
-                    $.each(users, function (i, user) {
+
+                    $.each(roles, function (i, role) {
                         tableContent += '<tr>';
-                        tableContent += '<td>' + (i + 1) + '</td>';
-                        tableContent += '<td><input name="userId" value="' + user.id + '" type="checkbox"></td>';
-                        tableContent += '<td>' + user.loginacct + '</td>';
-                        tableContent += '<td>' + user.username + '</td>';
-                        tableContent += '<td>' + user.email + '</td>';
-                        tableContent += '<td>';
-                        tableContent += '<button type="button" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>';
-                        tableContent += '<button type="button" onclick="toEdit(' + user.id + ')" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>';
-                        tableContent += '<button type="button" onclick="deleteBtn(' + user.id + ',\'' + user.loginacct + '\')" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>';
-                        tableContent += '</td>';
+                        tableContent += '	<td>' + (i + 1) + '</td>';
+                        tableContent += '	<td><input name="roleid" value="' + role.id + '" type="checkbox"></td>';
+                        tableContent += '	<td>' + role.rolename + '</td>';
+                        tableContent += '	<td>';
+                        tableContent += '		<button type="button" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>';
+                        tableContent += '		<button type="button" onclick="toEdit(' + role.id + ')" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>';
+                        tableContent += '		<button type="button" onclick="deleteRole(' + role.id + ',\'' + role.rolename + '\')" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>';
+                        tableContent += '	</td>';
                         tableContent += '</tr>';
                     });
 
@@ -285,7 +282,7 @@
                         pageContent += '<li class="disabled"><a href="#">上一页</a></li>';
                     }
 
-                    for (var i = 1; i <= userPage.totalPage; i++) {
+                    for (var i = 1; i <= rolePage.totalPage; i++) {
                         if (pageNo === i) {
                             pageContent += '<li class="active"><a href="#">' + i + '</a></li>';
                         } else {
@@ -293,16 +290,16 @@
                         }
                     }
 
-                    if (pageNo < userPage.totalPage) {
+                    if (pageNo < rolePage.totalPage) {
                         pageContent += '<li><a href="javascript:" onclick="pageQuery(' + (pageNo + 1) + ')">下一页</a></li>';
                     } else {
                         pageContent += '<li class="disabled"><a href="#">下一页</a></li>';
                     }
-
-                    $("#userData").html(tableContent);
+                    $("#roleData").html(tableContent);
                     $(".pagination").html(pageContent);
+
                 } else {
-                    layer.msg('用户信息分页查询失败', {
+                    layer.msg('角色信息分页查询失败', {
                         icon: 5,
                         time: 2000, //2秒关闭（如果不配置，默认是3秒）
                         anim: 6
@@ -311,18 +308,20 @@
                 }
             }
 
-
         })
     }
 
+    function toEdit(id) {
+        window.location.href = "${APP_PATH}/role/edit?id=" + id;
+    }
 
-    function deleteBtn(id, loginacct) {
+    function deleteRole(id, rolename) {
         var index = null;
-        layer.confirm("确定删除用户【" + loginacct + "】？", {icon: 3, title: '提示'}, function (cindex) {
+        layer.confirm("确定删除角色【" + rolename + "】？", {icon: 3, title: '提示'}, function (cindex) {
 
             $.ajax({
                 type: "POST",
-                url: "${APP_PATH}/user/delete",
+                url: "${APP_PATH}/role/delete",
                 data: {"id": id},
                 beforeSend: function () {
                     index = layer.msg('处理中', {icon: 16});
@@ -332,7 +331,7 @@
                     if (result) {
                         pageQuery(1);
                     } else {
-                        layer.msg('用户删除失败，请重新操作！', {
+                        layer.msg('角色删除失败，请重新操作！', {
                             icon: 5,
                             time: 2000, //2秒关闭（如果不配置，默认是3秒）
                             anim: 6
@@ -348,11 +347,11 @@
         });
     }
 
-    function deleteUsers() {
+    function deleteRoles() {
         var index = null;
-        var boxes = $("#userData input:checkbox:checked");
+        var boxes = $("#roleData input:checkbox:checked");
         if (boxes.length === 0) {
-            layer.msg('请选择需要删除的用户！', {
+            layer.msg('请选择需要删除的角色！', {
                 icon: 5,
                 time: 2000, //2秒关闭（如果不配置，默认是3秒）
                 anim: 6
@@ -360,20 +359,22 @@
             });
             return;
         }
-        layer.confirm("确认删除选择的用户？", {icon: 3, title: '提示'}, function (cindex) {
+        layer.confirm("确认删除选择的角色？", {icon: 3, title: '提示'}, function (cindex) {
             $.ajax({
                 type: "POST",
-                url: "${APP_PATH}/user/deletes",
-                data: $("#userForm").serialize(),
+                url: "${APP_PATH}/role/deleteRoles",
+                data: $("#roleForm").serialize(),
                 beforeSend: function () {
                     index = layer.msg('处理中', {icon: 16});
                 },
                 success: function (result) {
                     layer.close(index);
                     if (result) {
-                        pageQuery(1);
+                        layer.msg('角色删除成功！', {icon: 6, time: 2000}, function () {
+                            pageQuery(1);
+                        });
                     } else {
-                        layer.msg('用户删除失败，请重新操作！', {
+                        layer.msg('角色删除失败，请重新操作！', {
                             icon: 5,
                             time: 2000, //2秒关闭（如果不配置，默认是3秒）
                             anim: 6
@@ -389,9 +390,10 @@
         });
     }
 
-    function toEdit(id) {
-        window.location.href = "${APP_PATH}/user/edit?id=" + id;
-    }
+
+    $("tbody .btn-success").click(function () {
+        window.location.href = "assignPermission.html";
+    });
 </script>
 </body>
 </html>

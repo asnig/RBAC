@@ -1,13 +1,13 @@
 <%--
   Created by IntelliJ IDEA.
   User: 10727
-  Date: 2019/3/31
-  Time: 21:09
+  Date: 2019/4/2
+  Time: 11:16
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zn-CN">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -76,7 +76,8 @@
                                                                                              style="float:right">3</span></span>
                         <ul style="margin-top:10px;">
                             <li style="height:30px;">
-                                <a href="/user/index" style="color:red;"><i class="glyphicon glyphicon-user"></i> 用户维护</a>
+                                <a href="/user/index" style="color:red;"><i class="glyphicon glyphicon-user"></i>
+                                    用户维护</a>
                             </li>
                             <li style="height:30px;">
                                 <a href="/role/index"><i class="glyphicon glyphicon-certificate"></i> 角色维护</a>
@@ -145,24 +146,17 @@
                             class="glyphicon glyphicon-question-sign"></i></div>
                 </div>
                 <div class="panel-body">
-                    <form role="form">
+                    <form role="form" id="roleForm">
                         <div class="form-group">
-                            <label for="loginacct">登陆账号</label>
-                            <input type="text" class="form-control" id="loginacct" placeholder="请输入登陆账号">
+                            <label for="rolename">角色名称</label>
+                            <input type="text" class="form-control" id="rolename" name="rolename"
+                                   value="${role.rolename}" placeholder="请输入角色名称">
                         </div>
-                        <div class="form-group">
-                            <label for="username">用户名称</label>
-                            <input type="text" class="form-control" id="username" placeholder="请输入用户名称">
-                        </div>
-                        <div class="form-group">
-                            <label for="email">邮箱地址</label>
-                            <input type="email" class="form-control" id="email" placeholder="请输入邮箱地址">
-                            <p class="help-block label label-warning">请输入合法的邮箱地址, 格式为： xxxx@xxxx.com</p>
-                        </div>
-                        <button id="insertBtn" type="button" class="btn btn-success"><i
-                                class="glyphicon glyphicon-plus"></i> 新增
+                        <button id="updateBtn" type="button" class="btn btn-success"><i
+                                class="glyphicon glyphicon-pencil"></i> 修改
                         </button>
-                        <button type="button" class="btn btn-danger"><i class="glyphicon glyphicon-refresh"></i> 重置
+                        <button id="resetBtn" type="button" class="btn btn-danger"><i
+                                class="glyphicon glyphicon-refresh"></i> 重置
                         </button>
                     </form>
                 </div>
@@ -213,44 +207,46 @@
                 }
             }
         });
-
-        $("#insertBtn").click(function () {
-            var index = null;
-            var loginacct = $("#loginacct").val();
-            if (loginacct === '') {
-                layer.msg('登陆账号不能为空！请重新输入', {
+        $("#updateBtn").click(function () {
+            var rolename = $("#rolename").val();
+            if (rolename === '') {
+                layer.msg('角色名称不能为空！请重新输入！', {
                     icon: 5,
                     time: 2000, //2秒关闭（如果不配置，默认是3秒）
                     anim: 6
                 }, function () {
                 });
-
-            } else {
-
-                $.ajax({
-                    type: "POST",
-                    url: "${APP_PATH}/user/insert",
-                    data: {
-                        "loginacct": loginacct,
-                        "username": $("#username").val(),
-                        "email": $("#email").val()
-                    },
-                    beforeSend: function () {
-                        index = layer.msg('处理中', {icon: 16});
-                    },
-                    success: function (result) {
-                        layer.close(index);
-                        if (result.success) {
-                            layer.msg('用户保存成功！', {icon: 6, time: 1000}, function () {
-                                window.location.href = "${APP_PATA}/user/index";
-                            });
-                        } else {
-                            layer.msg('用户信息保存失败！请重新操作', {icon: 5, time: 2000, anim: 6}, function () {
-                            });
-                        }
-                    }
-                })
+                return;
             }
+
+            var index = null;
+            $.ajax({
+                type: "POST",
+                url: "${APP_PATH}/role/update",
+                data: {"rolename": rolename, "id":${role.id}},
+                beforeSend: function () {
+                    index = layer.msg('处理中', {icon: 16});
+                },
+                success: function (result) {
+                    layer.close(index);
+                    if (result.success) {
+                        layer.msg('用户修改成功！', {icon: 6, time: 1000}, function () {
+                            window.location.href = "${APP_PATH}/role/index";
+                        });
+                    } else {
+                        layer.msg('修改角色失败！请重新操作！', {
+                            icon: 5,
+                            time: 2000, //2秒关闭（如果不配置，默认是3秒）
+                            anim: 6
+                        }, function () {
+                        });
+                    }
+                }
+            })
+        })
+
+        $("#resetBtn").click(function () {
+            $("#roleForm")[0].reset();
         })
     });
 </script>

@@ -1,4 +1,4 @@
-package com.atguigu.atcrowdfunding.controller;
+package com.aiguigu.atcrowdfunding.bean;
 
 
 import java.util.List;

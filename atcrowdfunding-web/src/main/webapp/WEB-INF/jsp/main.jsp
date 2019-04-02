@@ -21,13 +21,15 @@
     <style>
         .tree li {
             list-style-type: none;
-            cursor:pointer;
+            cursor: pointer;
         }
+
         .tree-closed {
-            height : 40px;
+            height: 40px;
         }
+
         .tree-expanded {
-            height : auto;
+            height: auto;
         }
     </style>
 </head>
@@ -43,7 +45,8 @@
             <ul class="nav navbar-nav navbar-right">
                 <li style="padding-top:8px;">
                     <div class="btn-group">
-                        <button type="button" class="btn btn-default btn-success dropdown-toggle" data-toggle="dropdown">
+                        <button type="button" class="btn btn-default btn-success dropdown-toggle"
+                                data-toggle="dropdown">
                             <i class="glyphicon glyphicon-user"></i> ${loginUser.username} <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu" role="menu">
@@ -71,17 +74,18 @@
         <div class="col-sm-3 col-md-2 sidebar">
             <div class="tree">
                 <ul style="padding-left:0px;" class="list-group">
-                    <li class="list-group-item tree-closed" >
+                    <li class="list-group-item tree-closed">
                         <a href="main.html"><i class="glyphicon glyphicon-dashboard"></i> 控制面板</a>
                     </li>
                     <li class="list-group-item tree-closed">
-                        <span><i class="glyphicon glyphicon glyphicon-tasks"></i> 权限管理 <span class="badge" style="float:right">3</span></span>
+                        <span><i class="glyphicon glyphicon glyphicon-tasks"></i> 权限管理 <span class="badge"
+                                                                                             style="float:right">3</span></span>
                         <ul style="margin-top:10px;display:none;">
                             <li style="height:30px;">
                                 <a href="/user/index"><i class="glyphicon glyphicon-user"></i> 用户维护</a>
                             </li>
                             <li style="height:30px;">
-                                <a href="role.jsp"><i class="glyphicon glyphicon-king"></i> 角色维护</a>
+                                <a href="/role/index"><i class="glyphicon glyphicon-king"></i> 角色维护</a>
                             </li>
                             <li style="height:30px;">
                                 <a href="permission.jsp"><i class="glyphicon glyphicon-lock"></i> 许可维护</a>
@@ -89,7 +93,8 @@
                         </ul>
                     </li>
                     <li class="list-group-item tree-closed">
-                        <span><i class="glyphicon glyphicon-ok"></i> 业务审核 <span class="badge" style="float:right">3</span></span>
+                        <span><i class="glyphicon glyphicon-ok"></i> 业务审核 <span class="badge"
+                                                                                style="float:right">3</span></span>
                         <ul style="margin-top:10px;display:none;">
                             <li style="height:30px;">
                                 <a href="auth_cert.html"><i class="glyphicon glyphicon-check"></i> 实名认证审核</a>
@@ -128,7 +133,7 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="list-group-item tree-closed" >
+                    <li class="list-group-item tree-closed">
                         <a href="param.html"><i class="glyphicon glyphicon-list-alt"></i> 参数管理</a>
                     </li>
                 </ul>
@@ -139,22 +144,26 @@
 
             <div class="row placeholders">
                 <div class="col-xs-6 col-sm-3 placeholder">
-                    <img data-src="holder.js/200x200/auto/sky" class="img-responsive" alt="Generic placeholder thumbnail">
+                    <img data-src="holder.js/200x200/auto/sky" class="img-responsive"
+                         alt="Generic placeholder thumbnail">
                     <h4>Label</h4>
                     <span class="text-muted">Something else</span>
                 </div>
                 <div class="col-xs-6 col-sm-3 placeholder">
-                    <img data-src="holder.js/200x200/auto/vine" class="img-responsive" alt="Generic placeholder thumbnail">
+                    <img data-src="holder.js/200x200/auto/vine" class="img-responsive"
+                         alt="Generic placeholder thumbnail">
                     <h4>Label</h4>
                     <span class="text-muted">Something else</span>
                 </div>
                 <div class="col-xs-6 col-sm-3 placeholder">
-                    <img data-src="holder.js/200x200/auto/sky" class="img-responsive" alt="Generic placeholder thumbnail">
+                    <img data-src="holder.js/200x200/auto/sky" class="img-responsive"
+                         alt="Generic placeholder thumbnail">
                     <h4>Label</h4>
                     <span class="text-muted">Something else</span>
                 </div>
                 <div class="col-xs-6 col-sm-3 placeholder">
-                    <img data-src="holder.js/200x200/auto/vine" class="img-responsive" alt="Generic placeholder thumbnail">
+                    <img data-src="holder.js/200x200/auto/vine" class="img-responsive"
+                         alt="Generic placeholder thumbnail">
                     <h4>Label</h4>
                     <span class="text-muted">Something else</span>
                 </div>
@@ -167,12 +176,12 @@
 <script src="script/docs.min.js"></script>
 <script type="text/javascript">
     $(function () {
-        $(".list-group-item").click(function(){
+        $(".list-group-item").click(function () {
             // jquery对象的回调方法中的this关键字为DOM对象
             // $(DOM) ==> JQuery
-            if ( $(this).find("ul") ) { // 3 li
+            if ($(this).find("ul")) { // 3 li
                 $(this).toggleClass("tree-closed");
-                if ( $(this).hasClass("tree-closed") ) {
+                if ($(this).hasClass("tree-closed")) {
                     $("ul", this).hide("fast");
                 } else {
                     $("ul", this).show("fast");

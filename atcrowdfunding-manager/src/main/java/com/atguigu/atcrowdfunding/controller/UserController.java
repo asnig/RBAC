@@ -2,7 +2,9 @@ package com.atguigu.atcrowdfunding.controller;
 
 import com.aiguigu.atcrowdfunding.bean.AJAXResult;
 import com.aiguigu.atcrowdfunding.bean.Page;
+import com.aiguigu.atcrowdfunding.bean.Role;
 import com.aiguigu.atcrowdfunding.bean.User;
+import com.atguigu.atcrowdfunding.service.RoleService;
 import com.atguigu.atcrowdfunding.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,10 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/user")
@@ -23,6 +22,67 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private RoleService roleService;
+
+    @RequestMapping("/doAssign")
+    @ResponseBody
+    public Object doAssign(Integer userid, Integer[] unassignRoleids) {
+        AJAXResult result = new AJAXResult();
+        try {
+            Map<String, Object> map = new HashMap<>();
+            map.put("userid", userid);
+            map.put("roleids", unassignRoleids);
+            userService.insertUserRoles(map);
+            result.setSuccess(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setSuccess(false);
+        }
+
+        return result;
+    }
+
+    @RequestMapping("/doUnassign")
+    @ResponseBody
+    public Object doUnassign(Integer userid, Integer[] assignRoleids) {
+        AJAXResult result = new AJAXResult();
+        try {
+            Map<String, Object> map = new HashMap<>();
+            map.put("userid", userid);
+            map.put("roleids", assignRoleids);
+            userService.deleteUserRoles(map);
+            result.setSuccess(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setSuccess(false);
+        }
+
+        return result;
+    }
+
+    @RequestMapping("/assignRole")
+    public String assignRole(Integer id, Model model) {
+
+        User user = userService.queryById(id);
+
+        List<Role> roles = roleService.queryAll();
+        List<Role> assignedRoles = new ArrayList<>();
+        List<Role> unassignRoles = new ArrayList<>();
+        List<Integer> roleids = userService.queryRoleidsById(id);
+
+        for (Role role : roles) {
+            if (roleids.contains(role.getId())) {
+                assignedRoles.add(role);
+            } else {
+                unassignRoles.add(role);
+            }
+        }
+        model.addAttribute("assignedRoles", assignedRoles);
+        model.addAttribute("unassignRoles", unassignRoles);
+        model.addAttribute("user", user);
+        return "/user/assignRole";
+    }
 
     @ResponseBody
     @RequestMapping("/deletes")
@@ -30,7 +90,7 @@ public class UserController {
         AJAXResult result = new AJAXResult();
         try {
 
-            Map<String,Object> map = new HashMap<>();
+            Map<String, Object> map = new HashMap<>();
             map.put("userIds", userId);
             userService.deleteUsers(map);
             result.setSuccess(true);

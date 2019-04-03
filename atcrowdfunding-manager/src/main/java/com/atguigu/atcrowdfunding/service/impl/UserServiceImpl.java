@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -53,6 +54,21 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUsers(Map<String, Object> map) {
         userDao.deleteUsers(map);
+    }
+
+    @Override
+    public void insertUserRoles(Map<String, Object> map) {
+        userDao.insertUserRoles(map);
+    }
+
+    @Override
+    public void deleteUserRoles(Map<String, Object> map) {
+        userDao.deleteUserRoles(map);
+    }
+
+    @Override
+    public List<Integer> queryRoleidsById(Integer id) {
+        return userDao.queryRoleidsById(id);
     }
 
 }

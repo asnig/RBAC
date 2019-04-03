@@ -20,4 +20,6 @@ public interface RoleService {
     void deleteRole(Integer id);
 
     void deleteRoles(Map<String, Object> map);
+
+    List<Role> queryAll();
 }

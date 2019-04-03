@@ -23,4 +23,7 @@ public interface RoleDao {
     void deleteRole(Integer id);
 
     void deleteRoles(Map<String, Object> map);
+
+    @Select("select * from t_role")
+    List<Role> queryAll();
 }

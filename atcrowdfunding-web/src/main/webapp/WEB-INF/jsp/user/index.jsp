@@ -233,14 +233,13 @@
                 this.checked = flag;
             })
         })
-    });
-    $("tbody .btn-success").click(function () {
-        window.location.href = "assignRole.html";
-    });
-    $("tbody .btn-primary").click(function () {
-        window.location.href = "edit.html";
+
+
     });
 
+    function toAssign(id) {
+        window.location.href = "${APP_PATH}/user/assignRole?id=" + id;
+    }
     //分页查询
     function pageQuery(pageNo) {
 
@@ -272,7 +271,7 @@
                         tableContent += '<td>' + user.username + '</td>';
                         tableContent += '<td>' + user.email + '</td>';
                         tableContent += '<td>';
-                        tableContent += '<button type="button" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>';
+                        tableContent += '<button type="button" onclick="toAssign(' + user.id + ')" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>';
                         tableContent += '<button type="button" onclick="toEdit(' + user.id + ')" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>';
                         tableContent += '<button type="button" onclick="deleteBtn(' + user.id + ',\'' + user.loginacct + '\')" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>';
                         tableContent += '</td>';

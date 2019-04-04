@@ -159,7 +159,8 @@
                                 class="glyphicon glyphicon-search"></i> 查询
                         </button>
                     </form>
-                    <button type="button" onclick="deleteRoles()" class="btn btn-danger" style="float:right;margin-left:10px;"><i
+                    <button type="button" onclick="deleteRoles()" class="btn btn-danger"
+                            style="float:right;margin-left:10px;"><i
                             class=" glyphicon glyphicon-remove"></i> 删除
                     </button>
                     <button type="button" class="btn btn-primary" style="float:right;"
@@ -230,7 +231,7 @@
             var queryText = $("#queryText").val();
             likeFlag = queryText !== '';
             pageQuery(1);
-        })
+        });
 
         $("#selAllBox").click(function () {
             var flag = this.checked;

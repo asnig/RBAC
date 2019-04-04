@@ -1,6 +1,9 @@
 package com.aiguigu.atcrowdfunding.bean;
 
-public class AJAXResult {
+/**
+ * @author 10727
+ */
+public class AjaxResult {
     private boolean success;
     private Object data;
 

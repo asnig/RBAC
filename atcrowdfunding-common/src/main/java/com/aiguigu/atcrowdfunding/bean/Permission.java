@@ -3,6 +3,9 @@ package com.aiguigu.atcrowdfunding.bean;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author 10727
+ */
 public class Permission {
     private Integer id;
     private String name;
@@ -10,6 +13,15 @@ public class Permission {
     private String url;
     private Boolean open = true;
     private List<Permission> children = new ArrayList<>();
+    private String icon;
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
 
     public Integer getId() {
         return id;

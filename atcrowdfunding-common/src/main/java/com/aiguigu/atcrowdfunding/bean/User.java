@@ -1,5 +1,8 @@
 package com.aiguigu.atcrowdfunding.bean;
 
+/**
+ * @author 10727
+ */
 public class User {
 
     private Integer id;

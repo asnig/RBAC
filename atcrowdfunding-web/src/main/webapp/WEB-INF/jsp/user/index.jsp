@@ -225,7 +225,7 @@
             var queryText = $("#queryText").val();
             likeFlag = queryText !== "";
             pageQuery(1);
-        })
+        });
 
         $("#selAllBox").click(function () {
             var flag = this.checked;
@@ -240,11 +240,12 @@
     function toAssign(id) {
         window.location.href = "${APP_PATH}/user/assignRole?id=" + id;
     }
+
     //分页查询
     function pageQuery(pageNo) {
 
         var index = null;
-        var queryData = {"pageNo": pageNo, "pageSize": 10}
+        var queryData = {"pageNo": pageNo, "pageSize": 10};
         if (likeFlag) {
             queryData.queryText = $("#queryText").val();
         }

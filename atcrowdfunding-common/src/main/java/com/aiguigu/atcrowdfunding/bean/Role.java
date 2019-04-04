@@ -1,5 +1,8 @@
 package com.aiguigu.atcrowdfunding.bean;
 
+/**
+ * @author 10727
+ */
 public class Role {
     private int id;
     private String rolename;

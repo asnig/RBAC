@@ -1,6 +1,6 @@
 package com.atguigu.atcrowdfunding.controller;
 
-import com.aiguigu.atcrowdfunding.bean.AJAXResult;
+import com.aiguigu.atcrowdfunding.bean.AjaxResult;
 import com.aiguigu.atcrowdfunding.bean.Page;
 import com.aiguigu.atcrowdfunding.bean.Role;
 import com.atguigu.atcrowdfunding.service.RoleService;
@@ -16,6 +16,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author 10727
+ */
 @Controller
 @RequestMapping("/role")
 public class RoleController {
@@ -26,9 +29,9 @@ public class RoleController {
     @ResponseBody
     @RequestMapping("/deleteRoles")
     public Object deleteRoles(Integer[] roleid) {
-        AJAXResult result = new AJAXResult();
+        AjaxResult result = new AjaxResult();
         try {
-            Map<String,Object> map = new HashMap<>();
+            Map<String, Object> map = new HashMap<>(50);
             map.put("roleids", roleid);
             roleService.deleteRoles(map);
 
@@ -43,7 +46,7 @@ public class RoleController {
     @ResponseBody
     @RequestMapping("/delete")
     public Object delete(Integer id) {
-        AJAXResult result = new AJAXResult();
+        AjaxResult result = new AjaxResult();
         try {
             roleService.deleteRole(id);
             result.setSuccess(true);
@@ -58,7 +61,7 @@ public class RoleController {
     @ResponseBody
     @RequestMapping("/update")
     public Object update(Role role) {
-        AJAXResult result = new AJAXResult();
+        AjaxResult result = new AjaxResult();
         try {
             roleService.updateRole(role);
             result.setSuccess(true);
@@ -79,7 +82,7 @@ public class RoleController {
     @ResponseBody
     @RequestMapping("/insertRole")
     public Object insertRole(String rolename) {
-        AJAXResult result = new AJAXResult();
+        AjaxResult result = new AjaxResult();
         try {
             if (rolename == null || rolename.isEmpty()) {
                 return result;
@@ -112,10 +115,10 @@ public class RoleController {
     @ResponseBody
     @RequestMapping("/pageQuery")
     public Object pageQuery(Integer pageNo, Integer pageSize, String queryText) {
-        AJAXResult result = new AJAXResult();
+        AjaxResult result = new AjaxResult();
 
         try {
-            Map<String, Object> map = new HashMap<>();
+            Map<String, Object> map = new HashMap<>(50);
             map.put("start", (pageNo - 1) * pageSize);
             map.put("pageSize", pageSize);
             map.put("queryText", queryText);

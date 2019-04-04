@@ -26,7 +26,7 @@
         </where>
 
     </select>
-    
+
     <insert id="insertUser" parameterType="com.aiguigu.atcrowdfunding.bean.User">
       insert into t_user (
         username,loginacct,userpswd,email,createtime
@@ -62,7 +62,7 @@
     <delete id="deleteUserRoles">
         delete from t_user_role where userid=#{userid} and roleid in
         <foreach collection="roleids" item="roleid" open="(" close=")" separator=",">
-          #{roleid}
+            #{roleid}
         </foreach>
     </delete>
 </mapper>

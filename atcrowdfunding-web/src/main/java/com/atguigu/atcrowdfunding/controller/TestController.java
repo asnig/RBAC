@@ -11,6 +11,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author 10727
+ */
 @Controller
 @RequestMapping("/test")
 public class TestController {
@@ -24,15 +27,16 @@ public class TestController {
         List<User> users = userService.queryAll();
         return users;
     }
+
     @RequestMapping("/index")
-    public String index(){
+    public String index() {
         return "index";
     }
 
     @ResponseBody
     @RequestMapping("/json")
     public Object json() {
-        Map<String,String> map = new HashMap<>();
+        Map<String, String> map = new HashMap<>(50);
         map.put("username", "zhangsan");
         return map;
     }

@@ -1,6 +1,6 @@
 package com.atguigu.atcrowdfunding.controller;
 
-import com.aiguigu.atcrowdfunding.bean.AJAXResult;
+import com.aiguigu.atcrowdfunding.bean.AjaxResult;
 import com.aiguigu.atcrowdfunding.bean.Page;
 import com.aiguigu.atcrowdfunding.bean.Role;
 import com.aiguigu.atcrowdfunding.bean.User;
@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+/**
+ * @author 10727
+ */
 @Controller
 @RequestMapping("/user")
 public class UserController {
@@ -28,9 +31,9 @@ public class UserController {
     @RequestMapping("/doAssign")
     @ResponseBody
     public Object doAssign(Integer userid, Integer[] unassignRoleids) {
-        AJAXResult result = new AJAXResult();
+        AjaxResult result = new AjaxResult();
         try {
-            Map<String, Object> map = new HashMap<>();
+            Map<String, Object> map = new HashMap<>(50);
             map.put("userid", userid);
             map.put("roleids", unassignRoleids);
             userService.insertUserRoles(map);
@@ -46,9 +49,9 @@ public class UserController {
     @RequestMapping("/doUnassign")
     @ResponseBody
     public Object doUnassign(Integer userid, Integer[] assignRoleids) {
-        AJAXResult result = new AJAXResult();
+        AjaxResult result = new AjaxResult();
         try {
-            Map<String, Object> map = new HashMap<>();
+            Map<String, Object> map = new HashMap<>(50);
             map.put("userid", userid);
             map.put("roleids", assignRoleids);
             userService.deleteUserRoles(map);
@@ -87,10 +90,10 @@ public class UserController {
     @ResponseBody
     @RequestMapping("/deletes")
     public Object deletes(Integer[] userId) {
-        AJAXResult result = new AJAXResult();
+        AjaxResult result = new AjaxResult();
         try {
 
-            Map<String, Object> map = new HashMap<>();
+            Map<String, Object> map = new HashMap<>(50);
             map.put("userIds", userId);
             userService.deleteUsers(map);
             result.setSuccess(true);
@@ -105,7 +108,7 @@ public class UserController {
     @ResponseBody
     @RequestMapping("/delete")
     public Object delete(Integer id) {
-        AJAXResult result = new AJAXResult();
+        AjaxResult result = new AjaxResult();
         try {
 
             userService.deleteUserById(id);
@@ -122,7 +125,7 @@ public class UserController {
     @ResponseBody
     @RequestMapping("/update")
     public Object update(User user) {
-        AJAXResult result = new AJAXResult();
+        AjaxResult result = new AjaxResult();
 
         try {
 
@@ -147,7 +150,7 @@ public class UserController {
     @ResponseBody
     @RequestMapping("/insert")
     public Object insert(User user) {
-        AJAXResult result = new AJAXResult();
+        AjaxResult result = new AjaxResult();
 
         try {
             user.setUserpswd("123456");
@@ -170,11 +173,11 @@ public class UserController {
     @ResponseBody
     @RequestMapping("/pageQuery")
     public Object pageQuery(String queryText, Integer pageNo, Integer pageSize) {
-        AJAXResult result = new AJAXResult();
+        AjaxResult result = new AjaxResult();
 
         try {
             //分页查询
-            Map<String, Object> map = new HashMap<>();
+            Map<String, Object> map = new HashMap<>(50);
             map.put("start", (pageNo - 1) * pageSize);
             map.put("size", pageSize);
             map.put("queryText", queryText);
@@ -206,7 +209,7 @@ public class UserController {
                          @RequestParam(required = false, defaultValue = "4") Integer pageSize, Model model) {
 
         //分页查询
-        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>(50);
         map.put("start", (pageNo - 1) * pageSize);
         map.put("size", pageSize);
         List<User> users = userService.pageQueryData(map);

@@ -3,6 +3,9 @@ package com.aiguigu.atcrowdfunding.bean;
 
 import java.util.List;
 
+/**
+ * @author 10727
+ */
 public class Page<T> {
 
     private List<T> datas;

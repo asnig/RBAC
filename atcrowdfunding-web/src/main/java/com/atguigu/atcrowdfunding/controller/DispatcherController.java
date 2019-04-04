@@ -1,6 +1,6 @@
 package com.atguigu.atcrowdfunding.controller;
 
-import com.aiguigu.atcrowdfunding.bean.AJAXResult;
+import com.aiguigu.atcrowdfunding.bean.AjaxResult;
 import com.aiguigu.atcrowdfunding.bean.User;
 import com.atguigu.atcrowdfunding.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 
+/**
+ * @author 10727
+ */
 @Controller
 public class DispatcherController {
 
@@ -60,7 +63,7 @@ public class DispatcherController {
     public Object doAJAXLogin(User user, HttpSession session) {
         //获取表单数据
         User dbUser = userService.query4Login(user);
-        AJAXResult result = new AJAXResult();
+        AjaxResult result = new AjaxResult();
         if (dbUser != null) {
             result.setSuccess(true);
             session.setAttribute("loginUser", dbUser);

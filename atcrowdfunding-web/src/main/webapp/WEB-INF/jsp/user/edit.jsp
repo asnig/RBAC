@@ -76,7 +76,8 @@
                                                                                              style="float:right">3</span></span>
                         <ul style="margin-top:10px;">
                             <li style="height:30px;">
-                                <a href="/user/index" style="color:red;"><i class="glyphicon glyphicon-user"></i> 用户维护</a>
+                                <a href="/user/index" style="color:red;"><i class="glyphicon glyphicon-user"></i>
+                                    用户维护</a>
                             </li>
                             <li style="height:30px;">
                                 <a href="/role/index"><i class="glyphicon glyphicon-certificate"></i> 角色维护</a>
@@ -148,21 +149,25 @@
                     <form id="userForm" role="form">
                         <div class="form-group">
                             <label for="loginacct">登陆账号</label>
-                            <input type="text" class="form-control"  value="${user.loginacct}" id="loginacct" placeholder="请输入登陆账号">
+                            <input type="text" class="form-control" value="${user.loginacct}" id="loginacct"
+                                   placeholder="请输入登陆账号">
                         </div>
                         <div class="form-group">
                             <label for="username">用户名称</label>
-                            <input type="text" class="form-control" value="${user.username}" id="username" placeholder="请输入用户名称">
+                            <input type="text" class="form-control" value="${user.username}" id="username"
+                                   placeholder="请输入用户名称">
                         </div>
                         <div class="form-group">
                             <label for="email">邮箱地址</label>
-                            <input type="email" class="form-control" value="${user.email}" id="email" placeholder="请输入邮箱地址">
+                            <input type="email" class="form-control" value="${user.email}" id="email"
+                                   placeholder="请输入邮箱地址">
                             <p class="help-block label label-warning">请输入合法的邮箱地址, 格式为： xxxx@xxxx.com</p>
                         </div>
                         <button id="updateBtn" type="button" class="btn btn-success"><i
                                 class="glyphicon glyphicon-pencil"></i> 修改
                         </button>
-                        <button id="resetBtn" type="button" class="btn btn-danger"><i class="glyphicon glyphicon-refresh"></i> 重置
+                        <button id="resetBtn" type="button" class="btn btn-danger"><i
+                                class="glyphicon glyphicon-refresh"></i> 重置
                         </button>
                     </form>
                 </div>

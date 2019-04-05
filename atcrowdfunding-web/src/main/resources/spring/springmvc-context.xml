@@ -13,6 +13,37 @@
     <mvc:default-servlet-handler/>
     <mvc:annotation-driven/>
 
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/login"/>
+            <mvc:exclude-mapping path="/doAJAXLogin"/>
+            <mvc:exclude-mapping path="/bootstrap/**"/>
+            <mvc:exclude-mapping path="/fonts/**"/>
+            <mvc:exclude-mapping path="/img/**"/>
+            <mvc:exclude-mapping path="/jquery/**"/>
+            <mvc:exclude-mapping path="/layer/**"/>
+            <mvc:exclude-mapping path="/script/**"/>
+            <mvc:exclude-mapping path="/ztree/**"/>
+            <mvc:exclude-mapping path="/layer/**"/>
+            <bean class="com.aiguigu.atcrowdfunding.web.LoginInterceptor"/>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/login"/>
+            <mvc:exclude-mapping path="/doAJAXLogin"/>
+            <mvc:exclude-mapping path="/bootstrap/**"/>
+            <mvc:exclude-mapping path="/fonts/**"/>
+            <mvc:exclude-mapping path="/img/**"/>
+            <mvc:exclude-mapping path="/jquery/**"/>
+            <mvc:exclude-mapping path="/layer/**"/>
+            <mvc:exclude-mapping path="/script/**"/>
+            <mvc:exclude-mapping path="/ztree/**"/>
+            <mvc:exclude-mapping path="/layer/**"/>
+            <bean class="com.aiguigu.atcrowdfunding.web.AuthInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/jsp/"/>
         <property name="suffix" value=".jsp"/>

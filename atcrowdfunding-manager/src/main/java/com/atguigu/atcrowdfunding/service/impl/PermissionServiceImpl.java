@@ -1,6 +1,7 @@
 package com.atguigu.atcrowdfunding.service.impl;
 
 import com.aiguigu.atcrowdfunding.bean.Permission;
+import com.aiguigu.atcrowdfunding.bean.User;
 import com.atguigu.atcrowdfunding.dao.PermissionDao;
 import com.atguigu.atcrowdfunding.service.PermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,5 +50,15 @@ public class PermissionServiceImpl implements PermissionService {
     @Override
     public void deletePermission(Integer id) {
         permissionDao.deletePermission(id);
+    }
+
+    @Override
+    public List<Integer> queryPermissionidsByRoleid(Integer roleid) {
+        return permissionDao.queryPermissionidsByRoleid(roleid);
+    }
+
+    @Override
+    public List<Permission> queryPermissionsByUser(User dbUser) {
+        return permissionDao.queryPermissionsByUser(dbUser);
     }
 }

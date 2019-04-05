@@ -7,4 +7,12 @@
     <update id="updatePermission">
         update t_permission set name = #{name},url = #{url} where id = #{id}
     </update>
+
+    <select id="queryPermissionsByUser" resultType="com.aiguigu.atcrowdfunding.bean.Permission">
+        select * from t_permission where id in(
+          select permissionid from t_role_permission where roleid in(
+            select roleid from t_user_role where userid=#{id}
+          )
+        )
+    </select>
 </mapper>

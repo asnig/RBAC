@@ -1,7 +1,9 @@
 package com.atguigu.atcrowdfunding.controller;
 
 import com.aiguigu.atcrowdfunding.bean.AjaxResult;
+import com.aiguigu.atcrowdfunding.bean.Permission;
 import com.aiguigu.atcrowdfunding.bean.User;
+import com.atguigu.atcrowdfunding.service.PermissionService;
 import com.atguigu.atcrowdfunding.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
+import java.util.*;
 
 /**
  * @author 10727
@@ -19,6 +22,8 @@ public class DispatcherController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private PermissionService permissionService;
 
     /**
      * 跳转到登录页面
@@ -66,7 +71,28 @@ public class DispatcherController {
         AjaxResult result = new AjaxResult();
         if (dbUser != null) {
             result.setSuccess(true);
+            List<Permission> permissions = permissionService.queryPermissionsByUser(dbUser);
+            Set<String> uriSet = new HashSet<>();
+            Permission root = null;
+            Map<Integer, Permission> permissionMap = new HashMap<>();
+            for (Permission ps : permissions) {
+                permissionMap.put(ps.getId(), ps);
+                if (ps.getUrl() != null && "".equals(ps.getUrl())) {
+                    uriSet.add(session.getServletContext().getContextPath() + ps.getUrl());
+                }
+            }
+
+            for (Permission ps : permissions) {
+                if (0 == ps.getPid()) {
+                    root = ps;
+                } else {
+                    Permission parent = permissionMap.get(ps.getPid());
+                    parent.getChildren().add(ps);
+                }
+            }
+            session.setAttribute("rootPermission", root);
             session.setAttribute("loginUser", dbUser);
+            session.setAttribute("authUriSet", uriSet);
         } else {
             result.setSuccess(false);
         }

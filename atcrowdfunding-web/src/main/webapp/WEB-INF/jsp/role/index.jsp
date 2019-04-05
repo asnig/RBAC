@@ -270,7 +270,7 @@
                         tableContent += '	<td><input name="roleid" value="' + role.id + '" type="checkbox"></td>';
                         tableContent += '	<td>' + role.rolename + '</td>';
                         tableContent += '	<td>';
-                        tableContent += '		<button type="button" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>';
+                        tableContent += '		<button type="button" onclick="toAssign(' + role.id + ')" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>';
                         tableContent += '		<button type="button" onclick="toEdit(' + role.id + ')" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>';
                         tableContent += '		<button type="button" onclick="deleteRole(' + role.id + ',\'' + role.rolename + '\')" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>';
                         tableContent += '	</td>';
@@ -391,10 +391,9 @@
         });
     }
 
-
-    $("tbody .btn-success").click(function () {
-        window.location.href = "assignPermission.html";
-    });
+    function toAssign(id) {
+        window.location.href = "${APP_PATH}/role/assign?id=" + id;
+    }
 </script>
 </body>
 </html>

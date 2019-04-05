@@ -82,6 +82,34 @@ public class PermissionController {
         return "permission/index";
     }
 
+    @ResponseBody
+    @RequestMapping("/loadAssignData")
+    public Object loadAssignData(Integer roleid) {
+        List<Permission> permissions = new ArrayList<>();
+
+        List<Permission> allPermissions = permissionService.queryAll();
+        List<Integer> permissionids = permissionService.queryPermissionidsByRoleid(roleid);
+        Map<Integer, Permission> map = new HashMap<>(50);
+        for (Permission ps : allPermissions) {
+            map.put(ps.getId(), ps);
+        }
+
+        for (Permission ps : allPermissions) {
+            if (permissionids.contains(ps.getId())) {
+                ps.setChecked(true);
+            } else {
+                ps.setChecked(false);
+            }
+            if (ps.getPid() == 0) {
+                permissions.add(ps);
+            } else {
+                Permission parent = map.get(ps.getPid());
+                parent.getChildren().add(ps);
+            }
+        }
+        return permissions;
+    }
+
     @RequestMapping(value = "/loadData")
     @ResponseBody
     public Object loadData() {

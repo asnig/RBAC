@@ -1,6 +1,7 @@
 package com.atguigu.atcrowdfunding.dao;
 
 import com.aiguigu.atcrowdfunding.bean.Permission;
+import com.aiguigu.atcrowdfunding.bean.User;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Select;
 
@@ -65,4 +66,21 @@ public interface PermissionDao {
      */
     @Delete("delete from t_permission where id = #{id}")
     void deletePermission(Integer id);
+
+    /**
+     * 查询角色拥有的许可
+     *
+     * @param roleid 角色id
+     * @return 角色拥有的许可
+     */
+    @Select("select permissionid from t_role_permission where roleid=#{roleid}")
+    List<Integer> queryPermissionidsByRoleid(Integer roleid);
+
+    /**
+     * 查询用户拥有的许可
+     *
+     * @param dbUser dbUser
+     * @return 许可
+     */
+    List<Permission> queryPermissionsByUser(User dbUser);
 }

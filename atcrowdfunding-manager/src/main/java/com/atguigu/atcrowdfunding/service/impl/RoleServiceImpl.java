@@ -56,4 +56,14 @@ public class RoleServiceImpl implements RoleService {
     public List<Role> queryAll() {
         return roleDao.queryAll();
     }
+
+    @Override
+    public void insertRolePermission(Map<String, Object> map) {
+        roleDao.insertRolePermission(map);
+    }
+
+    @Override
+    public void deleteRolePermission(Map<String, Object> map) {
+        roleDao.deleteRolePermission(map);
+    }
 }

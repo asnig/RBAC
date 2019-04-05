@@ -72,4 +72,18 @@ public interface RoleDao {
      */
     @Select("select * from t_role")
     List<Role> queryAll();
+
+    /**
+     * 给角色分配许可
+     *
+     * @param map 要分配的许可
+     */
+    void insertRolePermission(Map<String, Object> map);
+
+    /**
+     * 给角色分配许可之前，先角色拥有的许可
+     *
+     * @param map 要删除的许可
+     */
+    void deleteRolePermission(Map<String, Object> map);
 }

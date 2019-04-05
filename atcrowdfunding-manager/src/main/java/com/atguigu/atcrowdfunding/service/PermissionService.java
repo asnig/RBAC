@@ -1,6 +1,7 @@
 package com.atguigu.atcrowdfunding.service;
 
 import com.aiguigu.atcrowdfunding.bean.Permission;
+import com.aiguigu.atcrowdfunding.bean.User;
 
 import java.util.List;
 
@@ -58,4 +59,21 @@ public interface PermissionService {
      * @param id 需要删除节点的id
      */
     void deletePermission(Integer id);
+
+    /**
+     * 查询角色拥有的许可
+     *
+     * @param roleid 角色id
+     * @return 角色拥有的许可
+     */
+    List<Integer> queryPermissionidsByRoleid(Integer roleid);
+
+
+    /**
+     * 查询用户拥有的许可
+     *
+     * @param dbUser dbUser
+     * @return 许可
+     */
+    List<Permission> queryPermissionsByUser(User dbUser);
 }

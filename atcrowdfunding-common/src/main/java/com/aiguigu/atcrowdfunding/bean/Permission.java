@@ -12,8 +12,17 @@ public class Permission {
     private Integer pid;
     private String url;
     private Boolean open = true;
+    private Boolean checked = false;
     private List<Permission> children = new ArrayList<>();
     private String icon;
+
+    public Boolean getChecked() {
+        return checked;
+    }
+
+    public void setChecked(Boolean checked) {
+        this.checked = checked;
+    }
 
     public String getIcon() {
         return icon;

@@ -26,6 +26,30 @@ public class RoleController {
     @Autowired
     private RoleService roleService;
 
+    @RequestMapping("/doAssign")
+    @ResponseBody
+    public Object doAssign(Integer roleid, Integer[] permissionids) {
+        AjaxResult result = new AjaxResult();
+        try {
+
+            Map<String, Object> map = new HashMap<>();
+            map.put("roleid", roleid);
+            map.put("permissionids", permissionids);
+            roleService.deleteRolePermission(map);
+            roleService.insertRolePermission(map);
+            result.setSuccess(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setSuccess(false);
+        }
+        return result;
+    }
+
+    @RequestMapping("/assign")
+    public String assign() {
+        return "role/assign";
+    }
+
     @ResponseBody
     @RequestMapping("/deleteRoles")
     public Object deleteRoles(Integer[] roleid) {
